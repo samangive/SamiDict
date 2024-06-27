@@ -1,0 +1,16 @@
+
+#my gitignore
+
+.env/
+.idea/
+.git/
+*.pyc
+__pycache__
+Desktop.ini
+Thumbs.db
+ehthumbs.db
+
+
+*.log
+*.bak
+*.tmp

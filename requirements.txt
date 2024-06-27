@@ -1,0 +1,4 @@
+wxPython==4.0.7
+deep-translator==2.2.1
+pyttsx==3
+os ==
