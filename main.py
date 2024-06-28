@@ -1,11 +1,17 @@
 import wx
 from dict_functions import translate_en_to_fa
+from  dict_functions import  translate_ar_to_en
+from  dict_functions import  translate_de_to_en
+from  dict_functions import translate_en_to_ar
+from  dict_functions import  translate_en_to_de
+from  dict_functions import translate_en_to_fr
+from  dict_functions import  translate_fr_to_en
 from dict_functions import translate_fa_to_en
 import pyttsx3
-from menubar import MenuBar
 
 
-languages = ["English", "Persian"]  # Only English and Persian supported for now
+
+
 
 
 class SamiDictApp(wx.Frame):
@@ -34,9 +40,6 @@ class SamiDictApp(wx.Frame):
         font = wx.SystemSettings.GetFont(wx.SYS_SYSTEM_FONT)
         font.SetPointSize(11)
 
-        self.menubar = MenuBar(self)
-        self.SetMenuBar(self.menubar)
-
         my_box = wx.BoxSizer(wx.VERTICAL)
 
         box1 = wx.BoxSizer(wx.HORIZONTAL)
@@ -44,11 +47,37 @@ class SamiDictApp(wx.Frame):
         self.rb1.SetName(self.rb1.GetLabel())
         self.rb1.SetFont(font)
         self.rb1.SetValue(True)
-        self.rb2 = wx.RadioButton(panel, label="FA to EN")
+        self.rb2 = wx.RadioButton(panel, label="FA to EN", )
         self.rb2.SetName(self.rb2.GetLabel())
         self.rb2.SetFont(font)
+        self.rb3 = wx.RadioButton(panel, label = "FRENCH  to EN")
+        self.rb3.SetName(self.rb3.GetLabel())
+        self.rb3.SetFont(font)
+        self.rb4 = wx.RadioButton(panel, label = "EN to FRENCH")
+        self.rb4.SetName(self.rb4.GetLabel())
+        self.rb4.SetFont(font)
+        self.rb5 = wx.RadioButton(panel, label = "GERMAN to EN")
+        self.rb5.SetName(self.rb5.GetLabel())
+        self.rb5.SetFont(font)
+        self.rb6 = wx.RadioButton(panel, label="EN to GERMAN")
+        self.rb6.SetName(self.rb6.GetLabel())
+        self.rb6.SetFont(font)
+
+        self.rb7 = wx.RadioButton(panel, label = "ARABIC to EN")
+        self.rb7.SetName(self.rb7.GetLabel())
+        self.rb7.SetFont(font)
+        self.rb8 = wx.RadioButton(panel, label="EN to ARABIC")
+        self.rb8.SetName(self.rb8.GetLabel())
+        self.rb8.SetFont(font)
+
         box1.Add(self.rb1, flag=wx.EXPAND | wx.RIGHT, border=20)
         box1.Add(self.rb2, flag=wx.EXPAND | wx.LEFT, border=20)
+        box1.Add(self.rb3, flag = wx.EXPAND|wx.LEFT, border = 20)
+        box1.Add(self.rb4, flag = wx.EXPAND|wx.LEFT, border = 20)
+        box1.Add(self.rb5, flag=wx.EXPAND | wx.LEFT, border=20)
+        box1.Add(self.rb6, flag=wx.EXPAND | wx.LEFT, border=20)
+        box1.Add(self.rb7, flag=wx.EXPAND | wx.LEFT, border=20)
+        box1.Add(self.rb8, flag=wx.EXPAND | wx.LEFT, border=20)
 
         box2 = wx.BoxSizer(wx.HORIZONTAL)
         self.input_static = wx.StaticText(panel, label="Input")
@@ -134,18 +163,34 @@ class SamiDictApp(wx.Frame):
 
     def on_translation_click(self, event):
         """
-        Translates the input text from the input box to the translation box.
+        ترجمه متن ورودی و نمایش ترجمه در کادر متنی ترجمه.
+
+        این تابع متن ورودی از کادر متنی ورودی را دریافت می کند، زبان انتخابی را از دکمه های رادیویی تعیین می کند،
+        از توابع ترجمه مناسب برای ترجمه متن استفاده می کند و ترجمه را در کادر متنی ترجمه نمایش می دهد.
         """
         input_text = self.input_box.GetValue()
         if input_text:
             if self.rb1.GetValue():
                 translated_text = translate_en_to_fa(input_text)
-            else:
+            elif self.rb2.GetValue():
                 translated_text = translate_fa_to_en(input_text)
+            elif self.rb3.GetValue():
+                translated_text = translate_fr_to_en(input_text)
+            elif self.rb4.GetValue():
+                translated_text = translate_en_to_fr(input_text)
+            elif self.rb5.GetValue():
+                translated_text = translate_de_to_en(input_text)
+            elif self.rb6.GetValue():
+                translated_text = translate_en_to_de(input_text)
+            elif self.rb7.GetValue():
+                translated_text = translate_ar_to_en(input_text)
+            elif self.rb8.GetValue():
+                translated_text = translate_en_to_ar(input_text)
 
-            self.translation_box.Clear()
-            self.translation_box.WriteText(translated_text)
-            wx.MessageBox("Translation Successful!", "Message", wx.OK | wx.ICON_INFORMATION)
+            if translated_text:
+                self.translation_box.Clear()
+                self.translation_box.WriteText(translated_text)
+                wx.MessageBox("Translation completed successfully!", "Message", wx.OK | wx.ICON_INFORMATION)
 
     def on_read_click(self, event):
         """
